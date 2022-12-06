@@ -28,4 +28,51 @@ export class ProductsComponent implements OnInit {
     );
   }
 
+  onGetSelectedProducts(){
+    this.products$ = this.productsService.getSelectedProducts().pipe(
+      map(data=>{
+        return ({dataState:DataStateEnum.LOADED,data:data})
+      }),
+      startWith({dataState:DataStateEnum.LOADING}),
+      catchError(err=>of({dataState:DataStateEnum.ERROR,errorMessage:err.message}))
+    );
+  }
+
+  onGetAvailableProducts(){
+    this.products$ = this.productsService.getAvailableProducts().pipe(
+      map(data=>{
+        return ({dataState:DataStateEnum.LOADED,data:data})
+      }),
+      startWith({dataState:DataStateEnum.LOADING}),
+      catchError(err=>of({dataState:DataStateEnum.ERROR,errorMessage:err.message}))
+    );
+  }
+
+  onSearch(dataForm:any){
+    this.products$ = this.productsService.searchProducts(dataForm.keyword).pipe(
+      map(data=>{
+        return ({dataState:DataStateEnum.LOADED,data:data})
+      }),
+      startWith({dataState:DataStateEnum.LOADING}),
+      catchError(err=>of({dataState:DataStateEnum.ERROR,errorMessage:err.message}))
+    );
+  }
+
+  onSelect(p:Product){
+    this.productsService.select(p)
+      .subscribe(data=>{
+        p.selected=data.selected;
+      })
+  }
+
+  onDelete(p:Product){
+    let v = confirm("Voulez-vous vraiment supprimer ?")
+    if(v==true){
+      this.productsService.deleteProduct(p)
+      .subscribe(data=>{
+        this.onGetAllProducts();
+      })
+    }
+  }
+
 }
