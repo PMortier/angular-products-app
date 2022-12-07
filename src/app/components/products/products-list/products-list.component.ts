@@ -31,4 +31,8 @@ export class ProductsListComponent implements OnInit {
     this.productsEventEmitter.emit({type:ProductActionsTypes.EDIT_PRODUCT,payload:p});
   }
 
+  onActionEvent($event:ActionEvent){
+    this.productsEventEmitter.emit($event);
+  }
+
 }
