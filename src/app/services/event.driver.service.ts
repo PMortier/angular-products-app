@@ -7,6 +7,11 @@ export class EventDriverService{
   sourceEventSubject:Subject<ActionEvent> = new Subject<ActionEvent>();
   sourceEventSubjectObservable = this.sourceEventSubject.asObservable();
 
+  // Il est possible de différencier les différents types d'événement
+  // exemple : ActionCommandEvent, ActionQueryEvent, etc.
+  //sourceEventSubject2:Subject<ActionCommandEvent> = new Subject<ActionCommandEvent>();
+  //sourceEventSubjectObservable2 = this.sourceEventSubject.asObservable();
+
   publishEvent(event:ActionEvent){
     this.sourceEventSubject.next(event);
   }
